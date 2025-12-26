@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookSwap | Premium Student Library</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-book-reader"></i></div>
+            <span>BookSwap</span>
+        </div>
+        
+        <div class="user-profile-summary" id="sidebarProfile" style="display:none;">
+            <div class="avatar-circle"><i class="fas fa-user"></i></div>
+            <div class="user-details">
+                <h4 id="userNameDisplay">User</h4>
+                <div class="points-pill"><i class="fas fa-gem"></i> <span id="userPoints">0</span> pts</div>
+            </div>
+        </div>
+
+        <nav class="side-nav">
+            <p class="nav-label">Main Menu</p>
+            <a href="#" class="nav-item active" onclick="switchView('view-home')">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="#" class="nav-item" onclick="handleRestrictedAction('view-wishlist')">
+                <i class="fas fa-heart"></i> My Wishlist <i class="fas fa-lock lock-icon"></i>
+            </a>
+            <a href="#" class="nav-item" onclick="handleRestrictedAction('view-history')">
+                <i class="fas fa-clock"></i> History <i class="fas fa-lock lock-icon"></i>
+            </a>
+            
+            <p class="nav-label">Contribute</p>
+            <a href="#" class="nav-item action-upload" onclick="handleRestrictedAction('view-upload')">
+                <i class="fas fa-cloud-upload-alt"></i> Upload PDF <i class="fas fa-lock lock-icon"></i>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer-action">
+            <button id="logoutBtn" class="btn-sidebar-action logout" style="display:none;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+            <button id="loginBtn" class="btn-sidebar-action login-highlight" onclick="openAuthModal('login')">
+                <i class="fas fa-sign-in-alt"></i> Login / Join
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <header class="top-header">
+            <div class="welcome-text">
+                <h1>Library Dashboard</h1>
+                <p>Access premium academic resources</p>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search title, author, or tag...">
+                </div>
+                <button id="themeToggleBtn" class="icon-btn" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            
+            <div id="view-home" class="view-section active">
+                <div class="dashboard-banner">
+                    <div class="banner-content">
+                        <h2>Share Knowledge, Earn Points</h2>
+                        <p>Upload your notes and get access to our premium collection.</p>
+                        <button class="btn-white" onclick="handleRestrictedAction('view-upload')">Start Uploading</button>
+                    </div>
+                    <i class="fas fa-book-open banner-icon-bg"></i>
+                </div>
+
+                <div class="section-header">
+                    <h3><i class="fas fa-fire" style="color:#f59e0b"></i> Trending Now</h3>
+                </div>
+                <div class="featured-grid" id="featuredGrid"></div>
+
+                <div class="section-header mt-large">
+                    <h3>All Collections</h3>
+                    <div class="filter-tabs">
+                        <button class="filter-btn active" onclick="filterBooks('All')">All</button>
+                        <button class="filter-btn" onclick="filterBooks('Technology')">Tech</button>
+                        <button class="filter-btn" onclick="filterBooks('Fiction')">Fiction</button>
+                        <button class="filter-btn" onclick="filterBooks('Science')">Science</button>
+                    </div>
+                </div>
+                <div class="books-grid" id="booksGrid"></div>
+            </div>
+
+            <div id="view-wishlist" class="view-section" style="display: none;">
+                <div class="section-top-bar">
+                    <button class="btn-back" onclick="switchView('view-home')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2>My Wishlist</h2>
+                </div>
+                <div class="books-grid" id="wishlistGrid"></div>
+            </div>
+
+            <div id="view-history" class="view-section" style="display: none;">
+                 <div class="section-top-bar">
+                    <button class="btn-back" onclick="switchView('view-home')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2>Download History</h2>
+                </div>
+                <div class="history-list-container" id="historyList"></div>
+            </div>
+
+            <div id="view-upload" class="view-section" style="display: none;">
+                <div class="section-top-bar">
+                    <button class="btn-back" onclick="switchView('view-home')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <h2>Upload & Earn</h2>
+                </div>
+
+                <div class="upload-wrapper">
+                    <div class="upload-box">
+                        <i class="fas fa-cloud-upload-alt upload-icon-lg"></i>
+                        <h3>Drag & Drop PDF</h3>
+                        <p>Earn <strong>+100 points</strong> per valid upload</p>
+                        <input type="file" id="fileInput" hidden>
+                        <p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--primary); margin-top: 10px; height: 20px; font-weight: 600;"></p>
+                        <button class="btn-primary" onclick="document.getElementById('fileInput').click()">Select File</button>
+                    </div>
+                    <button id="uploadConfirmBtn" class="btn-confirm-upload" disabled>Confirm Upload</button>
+                </div>
+
+                <div class="section-header mt-large">
+                    <h3>My Contributions</h3>
+                </div>
+                <div id="myUploadsList" class="history-list-container"></div>
+            </div>
+
+        </div> 
+
+        <footer class="main-footer">
+            <div class="footer-container">
+                <div class="footer-brand-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-book-reader"></i> BookSwap
+                    </div>
+                    <p>Connecting students through shared knowledge.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <a href="#">Trending</a>
+                    <a href="#">Categories</a>
+                    <a href="#">Uploads</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Social</h4>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 BookSwap Inc. All rights reserved.
+            </div>
+        </footer>
+    </main>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+            <div class="auth-header">
+                <h2>Welcome</h2>
+                <p>Please login to continue</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">Login</button>
+                <button class="tab-btn" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUser" placeholder="e.g. demo" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="••••••" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Log In</button>
+            </form>
+
+            <form id="signupForm" class="auth-form">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="signupUser" required>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-content">
+            <i class="fas fa-cookie-bite"></i>
+            <p>We use cookies to save your progress.</p>
+        </div>
+        <button onclick="acceptCookies()" class="btn-cookie">Accept</button>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
