@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookSwap - Console</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard-body">
+
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-layer-group"></i> Book<span class="highlight">Swap</span>
+        </div>
+
+        <p class="menu-label">MENU</p>
+        <ul class="nav-menu">
+            <li class="active"><a href="#"><i class="fas fa-book"></i> Library</a></li>
+            <li><a href="#"><i class="fas fa-cloud-upload-alt"></i> My Uploads</a></li>
+            <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="user-mini">
+                <div class="avatar">S</div>
+                <div class="user-details">
+                    <span class="name">Student Acct</span>
+                    <span class="role">Premium</span>
+                </div>
+            </div>
+            <a href="index.html" class="logout-icon"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <main class="main-workspace">
+
+        <header class="top-bar">
+            <div class="breadcrumbs">
+                <span>Dashboard</span> / <span class="current">Library</span>
+            </div>
+
+            <div class="top-actions">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search title, author, ISBN...">
+                </div>
+                <div class="icon-btn"><i class="far fa-bell"></i><span class="dot"></span></div>
+            </div>
+        </header>
+
+        <div class="content-area">
+
+            <div class="stats-row">
+                <div class="stat-card glass-panel">
+                    <div class="stat-header">
+                        <span class="stat-title">Wallet Balance</span>
+                        <i class="fas fa-wallet icon-gold"></i>
+                    </div>
+                    <div class="stat-value">2,450 Pts</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-header">
+                        <span class="stat-title">Books Uploaded</span>
+                        <i class="fas fa-cloud-upload-alt icon-blue"></i>
+                    </div>
+                    <div class="stat-value">14</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-header">
+                        <span class="stat-title">Downloads</span>
+                        <i class="fas fa-download icon-purple"></i>
+                    </div>
+                    <div class="stat-value">89</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h3>Available Books</h3>
+                <div class="view-options">
+                    <button class="filter-chip active">All</button>
+                    <button class="filter-chip">Science</button>
+                    <button class="filter-chip">Arts</button>
+                    <button class="filter-chip">Business</button>
+                    <button class="filter-chip">Medical</button>
+                    <button class="filter-chip">Engineering</button>
+                    <button class="filter-chip">Literature</button>
+                    <button class="filter-chip">AI/ML</button>
+                    <button class="filter-chip">CyberSecurity</button>
+                </div>
+            </div>
+
+            <div class="book-cover-grid">
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca83adff9d51?q=80&w=400&auto=format&fit=crop" alt="Book Cover">
+                        <span class="category-tag">Engineering</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Principles of Java</h4>
+                        <p class="author">By H. Schildt</p>
+                        <div class="book-footer">
+                            <span class="price">50 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=400&auto=format&fit=crop" alt="Book Cover">
+                        <span class="category-tag">Science</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Organic Chemistry</h4>
+                        <p class="author">By Paula Bruice</p>
+                        <div class="book-footer">
+                            <span class="price">120 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400&auto=format&fit=crop" alt="Book Cover">
+                        <span class="category-tag">Finance</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Economic Trends</h4>
+                        <p class="author">By T. Piketty</p>
+                        <div class="book-footer">
+                            <span class="price">80 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=400&auto=format&fit=crop" alt="Book Cover">
+                        <span class="category-tag">Coding</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Web Design 101</h4>
+                        <p class="author">By J. Duckett</p>
+                        <div class="book-footer">
+                            <span class="price">40 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=400&auto=format&fit=crop" alt="Book Cover">
+                        <span class="category-tag">Physics</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Applied Physics</h4>
+                        <p class="author">By S. Hawking</p>
+                        <div class="book-footer">
+                            <span class="price">90 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=400&auto=format&fit=crop" alt="Book Cover">
+                        <span class="category-tag">Literature</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Modern History</h4>
+                        <p class="author">By Y. Harari</p>
+                        <div class="book-footer">
+                            <span class="price">65 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="book-cover-grid">
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca83adff9d51?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Engineering</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Principles of Java</h4>
+                        <p class="author">By H. Schildt</p>
+                        <div class="book-footer">
+                            <span class="price">50 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Science</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Organic Chemistry</h4>
+                        <p class="author">By Paula Bruice</p>
+                        <div class="book-footer">
+                            <span class="price">120 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Finance</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Economic Trends</h4>
+                        <p class="author">By T. Piketty</p>
+                        <div class="book-footer">
+                            <span class="price">80 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Coding</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Web Design 101</h4>
+                        <p class="author">By J. Duckett</p>
+                        <div class="book-footer">
+                            <span class="price">40 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Physics</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Applied Physics</h4>
+                        <p class="author">By S. Hawking</p>
+                        <div class="book-footer">
+                            <span class="price">90 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Literature</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Modern History</h4>
+                        <p class="author">By Y. Harari</p>
+                        <div class="book-footer">
+                            <span class="price">65 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">AI / ML</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Machine Learning</h4>
+                        <p class="author">By Andrew Ng</p>
+                        <div class="book-footer">
+                            <span class="price">150 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel book-cover-card">
+                    <div class="cover-wrapper">
+                        <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?q=80&w=300" alt="Book Cover">
+                        <span class="category-tag">Network</span>
+                    </div>
+                    <div class="book-details">
+                        <h4>Cyber Security</h4>
+                        <p class="author">By K. Mitnick</p>
+                        <div class="book-footer">
+                            <span class="price">95 Pts</span>
+                            <button class="btn-download-icon"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="pro-footer">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <div class="footer-logo">
+                            <i class="fas fa-layer-group"></i> Book<span class="highlight">Swap</span>
+                        </div>
+                        <p class="footer-desc">The #1 Platform for students to exchange knowledge, PDFs, and resources seamlessly.</p>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Platform</h5>
+                        <a href="#">Browse Library</a>
+                        <a href="#">Upload Book</a>
+                        <a href="#">My Wallet</a>
+                        <a href="#">Leaderboard</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Support</h5>
+                        <a href="#">Help Center</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Copyright Claims</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Connect</h5>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2025 BookSwap Inc. All rights reserved.</p>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+</body>
+</html>

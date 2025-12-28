@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookSwap | Student Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-book-reader"></i> BookSwap
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="switchTab('home', this)">
+                <i class="fas fa-home"></i> Home
+            </div>
+            <div class="nav-item" onclick="switchTab('upload', this)">
+                <i class="fas fa-cloud-upload-alt"></i> Upload Book
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-heart"></i> Wishlist
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-history"></i> History
+            </div>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-avatar"><i class="fas fa-user"></i></div>
+            <div class="user-mini-info">
+                <span class="u-name">Guest User</span>
+                <span class="u-points">Login to view points</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search by title, author, or ISBN...">
+            </div>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="toggleModal(true)">Login / Signup</button>
+            </div>
+        </header>
+
+        <div id="home-section" class="view-section" style="display: block;">
+            <div class="section-header">
+                <h3>Featured Books</h3>
+                <div class="filter-chips">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Computer Science</button>
+                    <button class="filter-btn">Engineering</button>
+                    <button class="filter-btn">Literature</button>
+                </div>
+            </div>
+
+            <div class="books-grid">
+                <div class="book-card">
+                    <div class="cover-wrapper">
+                        <img src="https://m.media-amazon.com/images/I/71g2ednj0JL._AC_UF1000,1000_QL80_.jpg" class="book-cover-img" alt="Cover">
+                        <button class="wishlist-btn"><i class="fas fa-heart"></i></button>
+                    </div>
+                    <div class="book-info">
+                        <div class="book-cat">Psychology</div>
+                        <h4>The Psychology of Money</h4>
+                        <div class="book-author">Morgan Housel</div>
+                        <div class="card-bottom">
+                            <span class="cost-tag">50 Points</span>
+                            <div class="btn-group">
+                                <button class="btn-preview">Preview</button>
+                                <button class="btn-dl"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="cover-wrapper">
+                        <img src="images/TheAlchemist.jpg" class="book-cover-img" alt="Cover">
+                        <button class="wishlist-btn"><i class="fas fa-heart"></i></button>
+                    </div>
+                    <div class="book-info">
+                        <div class="book-cat">Sci-Fi</div>
+                        <h4>The Martian</h4>
+                        <div class="book-author">Andy Weir</div>
+                        <div class="card-bottom">
+                            <span class="cost-tag">45 Points</span>
+                            <div class="btn-group">
+                                <button class="btn-preview">Preview</button>
+                                <button class="btn-dl"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="cover-wrapper">
+                        <img src="images/cleancode.jpg" class="book-cover-img" alt="Cover">
+                        <button class="wishlist-btn"><i class="fas fa-heart"></i></button>
+                    </div>
+                    <div class="book-info">
+                        <div class="book-cat">Tech</div>
+                        <h4>Clean Code</h4>
+                        <div class="book-author">Robert C. Martin</div>
+                        <div class="card-bottom">
+                            <span class="cost-tag">60 Points</span>
+                            <div class="btn-group">
+                                <button class="btn-preview">Preview</button>
+                                <button class="btn-dl"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-card">
+                    <div class="cover-wrapper">
+                        <img src="https://m.media-amazon.com/images/I/71kxa1-0mfL._AC_UF1000,1000_QL80_.jpg" class="book-cover-img" alt="Cover">
+                        <button class="wishlist-btn"><i class="fas fa-heart"></i></button>
+                    </div>
+                    <div class="book-info">
+                        <div class="book-cat">Fiction</div>
+                        <h4>1984</h4>
+                        <div class="book-author">George Orwell</div>
+                        <div class="card-bottom">
+                            <span class="cost-tag">30 Points</span>
+                            <div class="btn-group">
+                                <button class="btn-preview">Preview</button>
+                                <button class="btn-dl"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="upload-section" class="view-section" style="display: none;">
+            <h3>Upload a New Book</h3>
+            <div class="upload-container">
+                <form class="upload-form" onsubmit="handleUpload(event)">
+                    <div class="form-group">
+                        <label>Book Title</label>
+                        <input type="text" placeholder="e.g. Introduction to Algorithms" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Author</label>
+                            <input type="text" placeholder="Author Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select>
+                                <option>Computer Science</option>
+                                <option>Mathematics</option>
+                                <option>Physics</option>
+                                <option>Literature</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" placeholder="Short description regarding edition/condition..." style="padding-bottom: 30px;">
+                    </div>
+                    <div class="file-drop-area" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--border);"></i>
+                        <p class="file-msg">Drag & Drop PDF or Click to Browse</p>
+                        <input type="file" id="fileInput" class="file-input" accept=".pdf" style="display: none;">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn-primary btn-full">Upload Book</button>
+                </form>
+                
+                <div class="my-uploads-side">
+                    <h4>Upload Guidelines</h4>
+                    <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 20px; margin-top: 10px; line-height: 1.6;">
+                        <li>PDF files only</li>
+                        <li>Max file size: 10MB</li>
+                        <li>Ensure the book is readable</li>
+                        <li>You earn <strong>20 points</strong> per approved upload</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-card">
+            <button class="close-modal" onclick="toggleModal(false)">&times;</button>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchAuth('login')">Login</button>
+                <button class="tab-btn" onclick="switchAuth('signup')">Sign Up</button>
+            </div>
+
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="btn-primary btn-full">Log In</button>
+            </form>
+
+            <form id="signupForm" class="auth-form" style="display: none;" onsubmit="handleSignup(event)">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Create Password" required>
+                <button type="submit" class="btn-primary btn-full">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
