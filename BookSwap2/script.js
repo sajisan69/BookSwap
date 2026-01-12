@@ -1,4 +1,3 @@
-/* ================= DATA & CONFIG ================= */
 const booksDB = [
     { id: 1, title: 'Clean Code', author: 'Robert C. Martin', category: 'Technology', cost: 50, trending: true, rating: 4.8, image: 'images/cleancode.jpg' },
     { id: 2, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', category: 'Fiction', cost: 20, trending: true, rating: 4.5, image: 'images/greatgatsby.jpg' },
