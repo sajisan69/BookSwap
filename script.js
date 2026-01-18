@@ -1,386 +1,719 @@
-const booksDB = [
-    { id: 1, title: 'Clean Code', author: 'Robert C. Martin', category: 'Technology', cost: 50, trending: true, rating: 4.8, image: 'images/cleancode.jpg' },
-    { id: 2, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', category: 'Fiction', cost: 20, trending: true, rating: 4.5, image: 'images/greatgatsby.jpg' },
-    { id: 3, title: 'Astrophysics', author: 'Neil deGrasse Tyson', category: 'Science', cost: 40, trending: true, rating: 4.9, image: 'images/astrophysics.jpg' },
-    { id: 4, title: 'UI Design 2025', author: 'Sarah Jenkins', category: 'Technology', cost: 60, trending: false, rating: 4.2, image: 'images/uidesign.jpg' },
-    { id: 5, title: 'Modern Biology', author: 'Dr. A. P. Raven', category: 'Science', cost: 35, trending: false, rating: 4.0, image: 'images/biology.jpg' },
-    { id: 6, title: 'Harry Potter', author: 'J.K. Rowling', category: 'Fiction', cost: 45, trending: true, rating: 4.7, image: 'images/harrypotter.jpg' },
-    { id: 7, title: 'History of Rome', author: 'Mary Beard', category: 'Fiction', cost: 30, trending: false, rating: 3.8, image: 'images/rome.jpg' },
-    { id: 8, title: 'Python Mastery', author: 'Eric Matthes', category: 'Technology', cost: 55, trending: false, rating: 4.6, image: 'images/python.jpg' },
-    { id: 9, title: 'Chemistry Basics', author: 'John Moore', category: 'Science', cost: 25, trending: false, rating: 4.1, image: 'images/chemistry.jpg' },
-    { id: 10, title: 'The Alchemist', author: 'Paulo Coelho', category: 'Fiction', cost: 15, trending: true, rating: 4.3, image: 'images/TheAlchemist.jpg' },
-    { id: 11, title: 'Data Structures', author: 'Gayle L. McDowell', category: 'Technology', cost: 70, trending: false, rating: 4.4, image: 'images/DSA.jpg' },
-    { id: 12, title: 'Quantum Physics', author: 'Richard Feynman', category: 'Science', cost: 80, trending: true, rating: 4.9, image: 'images/Qphysics.jpg' },
-    { id: 13, title: 'To Kill a Mockingbird', author: 'Harper Lee', category: 'Fiction', cost: 30, trending: false, rating: 4.6, image: 'images/mockingbird.jpg' },
-    { id: 14, title: 'Machine Learning', author: 'Andrew Ng', category: 'Technology', cost: 90, trending: true, rating: 4.8, image: 'images/ML.jpg' },
-    { id: 15, title: 'Genetics 101', author: 'Dr. Siddra Ijaz', category: 'Science', cost: 45, trending: false, rating: 4.2, image: 'images/genetics.png' },
-    { id: 16, title: '1984', author: 'George Orwell', category: 'Fiction', cost: 25, trending: true, rating: 4.5, image: 'images/1984.jpg' },
-    { id: 17, title: 'Web Development', author: 'Angela Yu', category: 'Technology', cost: 65, trending: false, rating: 4.3, image: 'images/Bookswap2.png' },
-    { id: 18, title: 'Environmental Science', author: 'G. Tyler Miller', category: 'Science', cost: 50, trending: true, rating: 4.7, image: 'images/Bookswap2.png' },
-    { id: 19, title: 'The Hobbit', author: 'J.R.R. Tolkien', category: 'Fiction', cost: 40, trending: false, rating: 4.4, image: 'images/Bookswap2.png' },
-    { id: 20, title: 'Cybersecurity Basics', author: 'Kevin Mitnick', category: 'Technology', cost: 75, trending: true, rating: 4.6, image: 'images/Bookswap2.png' },   
-    { id: 21, title: 'Relativity Theory', author: 'Albert Einstein', category: 'Science', cost: 85, trending: false, rating: 4.5, image: 'images/Bookswap2.png' },
-    { id: 22, title: 'Pride and Prejudice', author: 'Jane Austen', category: 'Fiction', cost: 20, trending: true, rating: 4.3, image: 'images/Bookswap2.png' }
+const DEFAULT_BOOKS = [
+    { 
+        "id": 1, 
+        "title": "Clean Code", 
+        "author": "Robert C. Martin", 
+        "category": "Technology", 
+        "cost": 50, 
+        "trending": true, 
+        "rating": 4.8, 
+        "image": "images/cleancode.jpg",
+        "downloadUrl": "https://ptgmedia.pearsoncmg.com/images/9780132350884/samplepages/9780132350884.pdf"
+    },
+    { 
+        "id": 2, 
+        "title": "The Great Gatsby", 
+        "author": "F. Scott Fitzgerald", 
+        "category": "Fiction", 
+        "cost": 20, 
+        "trending": true, 
+        "rating": 4.5, 
+        "image": "images/greatgatsby.jpg",
+        "downloadUrl": "https://www.gutenberg.org/files/64317/64317-pdf.pdf"
+    },
+    { 
+        "id": 3, 
+        "title": "Astrophysics for People in a Hurry", 
+        "author": "Neil deGrasse Tyson", 
+        "category": "Science", 
+        "cost": 40, 
+        "trending": true, 
+        "rating": 4.9, 
+        "image": "images/astrophysics.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 4, 
+        "title": "UI Design 2025", 
+        "author": "Sarah Jenkins", 
+        "category": "Technology", 
+        "cost": 60, 
+        "trending": false, 
+        "rating": 4.2, 
+        "image": "images/uidesign.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 5, 
+        "title": "Modern Biology", 
+        "author": "Dr. A. P. Raven", 
+        "category": "Science", 
+        "cost": 35, 
+        "trending": false, 
+        "rating": 4.0, 
+        "image": "images/biology.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 6, 
+        "title": "Harry Potter", 
+        "author": "J.K. Rowling", 
+        "category": "Fiction", 
+        "cost": 45, 
+        "trending": true, 
+        "rating": 4.7, 
+        "image": "images/harrypotter.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 7, 
+        "title": "History of Rome", 
+        "author": "Mary Beard", 
+        "category": "Fiction", 
+        "cost": 30, 
+        "trending": false, 
+        "rating": 3.8, 
+        "image": "images/rome.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 8, 
+        "title": "Python Mastery", 
+        "author": "Eric Matthes", 
+        "category": "Technology", 
+        "cost": 55, 
+        "trending": false, 
+        "rating": 4.6, 
+        "image": "images/python.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 9, 
+        "title": "Chemistry Basics", 
+        "author": "John Moore", 
+        "category": "Science", 
+        "cost": 25, 
+        "trending": false, 
+        "rating": 4.1, 
+        "image": "images/chemistry.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 10, 
+        "title": "The Alchemist", 
+        "author": "Paulo Coelho", 
+        "category": "Fiction", 
+        "cost": 15, 
+        "trending": true, 
+        "rating": 4.3, 
+        "image": "images/TheAlchemist.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 11, 
+        "title": "Data Structures", 
+        "author": "Gayle L. McDowell", 
+        "category": "Technology", 
+        "cost": 70, 
+        "trending": false, 
+        "rating": 4.4, 
+        "image": "images/DSA.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 12, 
+        "title": "Quantum Physics", 
+        "author": "Richard Feynman", 
+        "category": "Science", 
+        "cost": 80, 
+        "trending": true, 
+        "rating": 4.9, 
+        "image": "images/Qphysics.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 13, 
+        "title": "To Kill a Mockingbird", 
+        "author": "Harper Lee", 
+        "category": "Fiction", 
+        "cost": 30, 
+        "trending": false, 
+        "rating": 4.6, 
+        "image": "images/mockingbird.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 14, 
+        "title": "Machine Learning", 
+        "author": "Andrew Ng", 
+        "category": "Technology", 
+        "cost": 90, 
+        "trending": true, 
+        "rating": 4.8, 
+        "image": "images/ML.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 15, 
+        "title": "Genetics 101", 
+        "author": "Dr. Siddra Ijaz", 
+        "category": "Science", 
+        "cost": 45, 
+        "trending": false, 
+        "rating": 4.2, 
+        "image": "images/genetics.png",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 16, 
+        "title": "1984", 
+        "author": "George Orwell", 
+        "category": "Fiction", 
+        "cost": 25, 
+        "trending": true, 
+        "rating": 4.5, 
+        "image": "images/1984.jpg",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 17, 
+        "title": "Web Development", 
+        "author": "Angela Yu", 
+        "category": "Technology", 
+        "cost": 65, 
+        "trending": false, 
+        "rating": 4.3, 
+        "image": "images/Bookswap2.png",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 18, 
+        "title": "Environmental Science", 
+        "author": "G. Tyler Miller", 
+        "category": "Science", 
+        "cost": 50, 
+        "trending": true, 
+        "rating": 4.7, 
+        "image": "images/Bookswap2.png",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 19, 
+        "title": "The Hobbit", 
+        "author": "J.R.R. Tolkien", 
+        "category": "Fiction", 
+        "cost": 40, 
+        "trending": false, 
+        "rating": 4.4, 
+        "image": "images/Bookswap2.png",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 20, 
+        "title": "Cybersecurity Basics", 
+        "author": "Kevin Mitnick", 
+        "category": "Technology", 
+        "cost": 75, 
+        "trending": true, 
+        "rating": 4.6, 
+        "image": "images/Bookswap2.png",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    }, 
+    { 
+        "id": 21, 
+        "title": "Relativity Theory", 
+        "author": "Albert Einstein", 
+        "category": "Science", 
+        "cost": 85, 
+        "trending": false, 
+        "rating": 4.5, 
+        "image": "images/Bookswap2.png",
+        "downloadUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    { 
+        "id": 22, 
+        "title": "Pride and Prejudice", 
+        "author": "Jane Austen", 
+        "category": "Fiction", 
+        "cost": 20, 
+        "trending": true, 
+        "rating": 4.3, 
+        "image": "images/Bookswap2.png",
+        "downloadUrl": "https://www.gutenberg.org/files/1342/1342-pdf.pdf"
+    }
 ];
 
-/* ================= INITIALIZATION ================= */
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('bookswap_theme');
-    if(savedTheme === 'dark') document.body.classList.add('dark-mode');
-    
-    checkLoginState();
-    
-    const trendingBooks = booksDB.filter(b => b.trending);
-    renderBooks(trendingBooks, 'featuredGrid');
-    renderBooks(booksDB, 'booksGrid');
+// ==========================================
+// 2. STATE & INIT
+// ==========================================
+let allBooks = [];
+let allUsers = [];
+let currentUser = null;
+let currentBookId = null;
+let currentCategory = 'All';
 
-    setupEventListeners();
+document.addEventListener('DOMContentLoaded', () => {
+    loadTheme();
+    loadData();
+    checkSession();
+    checkCookies();
 });
 
-function setupEventListeners() {
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        const val = e.target.value.toLowerCase();
-        const filtered = booksDB.filter(book => 
-            book.title.toLowerCase().includes(val) || 
-            book.category.toLowerCase().includes(val) ||
-            book.author.toLowerCase().includes(val)
-        );
-        renderBooks(filtered, 'booksGrid');
-        
-        const featuredGrid = document.getElementById('featuredGrid');
-        const trendingHeader = document.querySelector('.section-header h3 i.fa-fire').parentElement.parentElement;
-        
-        if(val.length > 0) {
-            featuredGrid.style.display = 'none';
-            trendingHeader.style.display = 'none';
-        } else {
-            featuredGrid.style.display = 'grid';
-            trendingHeader.style.display = 'flex';
-        }
+function loadData() {
+    // Load Books
+    const saved = localStorage.getItem('bs_library_v9'); 
+    if (saved) {
+        allBooks = JSON.parse(saved);
+    } else {
+        allBooks = DEFAULT_BOOKS;
+        localStorage.setItem('bs_library_v9', JSON.stringify(allBooks));
+    }
+
+    // Load Users
+    const uSaved = localStorage.getItem('bs_users_v9');
+    if (uSaved) {
+        allUsers = JSON.parse(uSaved);
+    } else {
+        // Default Admin User
+        allUsers = [{ username: "admin", password: "123", email: "admin@test.com", points: 500, wishlist: [], history: [], activityLog: [] }];
+        localStorage.setItem('bs_users_v9', JSON.stringify(allUsers));
+    }
+    
+    renderHome(allBooks);
+}
+
+// ==========================================
+// 3. RENDERING HOME
+// ==========================================
+function renderHome(booksToRender) {
+    const searchVal = document.getElementById('searchInput').value.trim();
+    const isSearching = searchVal.length > 0;
+    
+    let trendingBooks = isSearching ? booksToRender.filter(b => b.trending) : allBooks.filter(b => b.trending);
+    
+    renderGrid('trendingGrid', trendingBooks, null); 
+    renderGrid('booksGrid', booksToRender, 'noResults');
+}
+
+function handleSearch() {
+    const term = document.getElementById('searchInput').value.toLowerCase().trim();
+    
+    let filtered = allBooks.filter(b => 
+        b.title.toLowerCase().includes(term) || 
+        b.author.toLowerCase().includes(term) ||
+        b.category.toLowerCase().includes(term)
+    );
+
+    if (currentCategory !== 'All') {
+        filtered = filtered.filter(b => b.category === currentCategory);
+    }
+    
+    const trendingSec = document.getElementById('trendingSection');
+    if(term.length > 0 && filtered.length === 0) {
+        trendingSec.style.display = 'none';
+    } else {
+        trendingSec.style.display = 'block';
+    }
+
+    renderHome(filtered);
+}
+
+function filterCategory(category, btnElement) {
+    currentCategory = category;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    if(btnElement) btnElement.classList.add('active');
+    handleSearch();
+}
+
+function renderGrid(id, books, emptyMsgId) {
+    const grid = document.getElementById(id);
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    if (books.length === 0 && emptyMsgId) {
+        const msg = document.getElementById(emptyMsgId);
+        if(msg) msg.style.display = 'block';
+        return;
+    }
+    if(emptyMsgId) {
+        const msg = document.getElementById(emptyMsgId);
+        if(msg) msg.style.display = 'none';
+    }
+
+    books.forEach(book => {
+        grid.appendChild(createBookCard(book));
     });
+}
 
-    document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
-    document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
-    document.getElementById('signupForm').addEventListener('submit', handleSignupSubmit);
-    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+function createBookCard(book) {
+    const div = document.createElement('div');
+    div.className = 'book-card';
     
-    document.getElementById('fileInput').addEventListener('change', (e) => {
-        if(e.target.files.length > 0) {
-            document.getElementById('uploadConfirmBtn').disabled = false;
-            document.getElementById('fileNameDisplay').textContent = e.target.files[0].name;
-        }
-    });
-    document.getElementById('uploadConfirmBtn').addEventListener('click', handleUpload);
-}
-
-/* ================= CORE LOGIC ================= */
-function isLoggedIn() {
-    return localStorage.getItem('bookswap_user') !== null;
-}
-
-function checkLoginState() {
-    const user = JSON.parse(localStorage.getItem('bookswap_user'));
-    const sidebarProfile = document.getElementById('sidebarProfile');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const loginBtn = document.getElementById('loginBtn');
-    
-    if (user) {
-        document.body.classList.add('user-logged-in');
-        sidebarProfile.style.display = 'flex';
-        document.getElementById('userNameDisplay').textContent = user.username;
-        document.getElementById('userPoints').textContent = user.points;
-        logoutBtn.style.display = 'flex';
-        loginBtn.style.display = 'none';
-        
-        if(!localStorage.getItem('cookies_accepted')) {
-            setTimeout(() => document.getElementById('cookieBanner').classList.add('show'), 1500);
-        }
-    } else {
-        document.body.classList.remove('user-logged-in');
-        sidebarProfile.style.display = 'none';
-        logoutBtn.style.display = 'none';
-        loginBtn.style.display = 'flex';
-    }
-}
-
-function renderBooks(books, containerId) {
-    const container = document.getElementById(containerId);
-    if(!container) return;
-
-    const user = JSON.parse(localStorage.getItem('bookswap_user'));
-    const wishlistIds = (user && user.wishlist) ? user.wishlist : [];
-
-    container.innerHTML = books.map(book => {
-        const isWished = wishlistIds.includes(book.id) ? 'active' : '';
-        return `
-        <div class="book-card">
-            <div class="cover-wrapper">
-                <img src="${book.image}" alt="${book.title}" class="book-cover-img">
-                <button class="wishlist-btn ${isWished}" onclick="handleWishlistToggle(${book.id}, this)">
-                    <i class="fas fa-heart"></i>
-                </button>
-            </div>
-            <div class="book-info">
-                <div class="book-cat">${book.category}</div>
-                <h4>${book.title}</h4>
-                <div class="book-author">by ${book.author}</div>
-                <div class="book-meta">
-                    <span class="rating"><i class="fas fa-star"></i> ${book.rating}</span>
-                </div>
-                <div class="card-bottom">
-                    <span class="cost-tag">${book.cost} Pts</span>
-                    <button class="btn-dl" onclick="attemptDownload(${book.id}, ${book.cost})">
-                        Download
-                    </button>
-                </div>
+    div.innerHTML = `
+        <img src="${book.image}" onclick="openPreview(${book.id})" onerror="this.src='https://via.placeholder.com/200x300?text=No+Image'">
+        <div class="book-info" onclick="openPreview(${book.id})">
+            <h4>${book.title}</h4>
+            <p>${book.author}</p>
+            <div class="card-stats">
+                <span><i class="fas fa-coins text-warning"></i> ${book.cost}</span>
+                <span><i class="fas fa-star text-warning"></i> ${book.rating}</span>
             </div>
         </div>
-        `;
-    }).join('');
-}
-
-function renderHistory() {
-    const user = JSON.parse(localStorage.getItem('bookswap_user'));
-    const container = document.getElementById('historyList');
-    if(!user || !user.history || user.history.length === 0) {
-        container.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i><p>No downloads yet.</p></div>';
-        return;
-    }
-    container.innerHTML = user.history.map(item => `
-        <div class="history-item">
-            <div>
-                <strong>${item.title}</strong><br>
-                <small style="color:var(--text-muted)">${item.date}</small>
-            </div>
-            <span style="color:var(--danger)">-${item.cost} pts</span>
+        <div class="card-actions">
+            <button class="btn-card btn-card-primary" onclick="downloadBookById(${book.id}, event)">
+                <i class="fas fa-download"></i> Get
+            </button>
+            <button class="btn-card btn-card-outline" onclick="openPreview(${book.id})">
+                <i class="fas fa-eye"></i> Preview
+            </button>
         </div>
-    `).join('');
+    `;
+    return div;
 }
 
-function renderUploads() {
-    const user = JSON.parse(localStorage.getItem('bookswap_user'));
-    const container = document.getElementById('myUploadsList');
+// ==========================================
+// 4. ACTIVITY LOG (DOWNLOAD & UPLOAD)
+// ==========================================
+
+// Helper to add activity
+function logActivity(type, title) {
+    if (!currentUser) return;
     
-    if(!user || !user.uploads || user.uploads.length === 0) {
-        container.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i><p>No uploads yet.</p></div>';
-        return;
-    }
-
-    container.innerHTML = user.uploads.map(item => `
-        <div class="history-item upload-item">
-            <div class="upload-info">
-                <i class="fas fa-file-pdf" style="color: var(--danger); font-size: 1.2rem;"></i>
-                <div>
-                    <strong>${item.name}</strong><br>
-                    <small style="color:var(--text-muted)">${item.date}</small>
-                </div>
-            </div>
-            <div class="upload-status">
-                <span class="badge badge-success">Approved</span>
-                <span style="color:var(--success); font-weight:700;">+${item.points} pts</span>
-            </div>
-        </div>
-    `).join('');
-}
-
-function handleRestrictedAction(viewId) {
-    if (!isLoggedIn()) {
-        openAuthModal('login');
-        showToast("Please login to access this feature", "error");
-    } else {
-        if(viewId === 'view-history') renderHistory();
-        if(viewId === 'view-upload') renderUploads();
-        
-        if(viewId === 'view-wishlist') {
-             const user = JSON.parse(localStorage.getItem('bookswap_user'));
-             const wishListBooks = booksDB.filter(b => user.wishlist && user.wishlist.includes(b.id));
-             renderBooks(wishListBooks, 'wishlistGrid');
-             if(wishListBooks.length === 0) document.getElementById('wishlistGrid').innerHTML = '<div class="empty-state"><i class="fas fa-heart-broken"></i><p>Wishlist is empty.</p></div>';
-        }
-
-        switchView(viewId);
-    }
-}
-
-function handleWishlistToggle(bookId, btnElement) {
-    if (!isLoggedIn()) {
-        openAuthModal('login');
-        return;
-    }
-
-    let user = JSON.parse(localStorage.getItem('bookswap_user'));
-    if(!user.wishlist) user.wishlist = [];
-
-    if(user.wishlist.includes(bookId)) {
-        user.wishlist = user.wishlist.filter(id => id !== bookId);
-        btnElement.classList.remove('active');
-        showToast("Removed from wishlist", "success");
-    } else {
-        user.wishlist.push(bookId);
-        btnElement.classList.add('active');
-        showToast("Added to wishlist", "success");
-    }
-
-    localStorage.setItem('bookswap_user', JSON.stringify(user));
-    
-    if(document.getElementById('view-wishlist').style.display === 'block') {
-         const wishListBooks = booksDB.filter(b => user.wishlist.includes(b.id));
-         renderBooks(wishListBooks, 'wishlistGrid');
-    }
-}
-
-function attemptDownload(id, cost) {
-    if (!isLoggedIn()) {
-        openAuthModal('login');
-        showToast("Login required to download", "error");
-        return;
-    }
-    
-    let user = JSON.parse(localStorage.getItem('bookswap_user'));
-    
-    if(user.points < cost) {
-        showToast(`Insufficient points! You need ${cost} pts.`, "error");
-        return;
-    }
-
-    if(confirm(`Download for ${cost} points?`)) {
-        user.points -= cost;
-        const book = booksDB.find(b => b.id === id);
-        
-        if(!user.history) user.history = [];
-        user.history.unshift({
-            title: book.title, 
-            cost: cost, 
-            date: new Date().toLocaleDateString()
-        });
-        
-        localStorage.setItem('bookswap_user', JSON.stringify(user));
-        
-        showToast("Download started successfully!", "success");
-        checkLoginState();
-    }
-}
-
-function handleUpload() {
-    const fileInput = document.getElementById('fileInput');
-    if(fileInput.files.length === 0) return;
-
-    const fileName = fileInput.files[0].name;
-    let user = JSON.parse(localStorage.getItem('bookswap_user'));
-    
-    const pointsEarned = 100;
-    user.points += pointsEarned;
-    
-    if(!user.uploads) user.uploads = [];
-    user.uploads.unshift({
-        name: fileName,
+    const logItem = {
+        type: type, // 'download' or 'upload'
+        title: title,
         date: new Date().toLocaleDateString(),
-        points: pointsEarned,
-        status: 'Approved'
-    });
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
 
-    localStorage.setItem('bookswap_user', JSON.stringify(user));
-    
-    showToast(`Uploaded "${fileName}" (+100 pts)`, "success");
-    
-    document.getElementById('uploadConfirmBtn').disabled = true;
-    document.getElementById('fileNameDisplay').textContent = "";
-    fileInput.value = ""; 
-    
-    renderUploads();
-    document.getElementById('userPoints').textContent = user.points;
+    if (!currentUser.activityLog) currentUser.activityLog = [];
+    currentUser.activityLog.unshift(logItem); // Add new log to top
+    updateUserSession();
 }
 
-function filterBooks(category) {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if(btn.textContent.includes(category) || (category === 'All' && btn.textContent === 'All')) {
+// Render Activity Log in History Tab
+function renderActivityLog() {
+    if (!currentUser) return;
+
+    const dlGrid = document.getElementById('downloadHistoryGrid');
+    const upGrid = document.getElementById('uploadHistoryGrid');
+    
+    if(!dlGrid || !upGrid) return;
+    
+    dlGrid.innerHTML = '';
+    upGrid.innerHTML = '';
+
+    const logs = currentUser.activityLog || [];
+    
+    const downloads = logs.filter(l => l.type === 'download');
+    const uploads = logs.filter(l => l.type === 'upload');
+
+    // Helper to create log card
+    const createLogCard = (log, icon, color) => `
+        <div class="book-card" style="display:flex; align-items:center; padding:15px; height:auto; min-height:80px;">
+            <div style="font-size:1.5rem; color:${color}; margin-right:15px; margin-left:10px;">
+                <i class="fas ${icon}"></i>
+            </div>
+            <div>
+                <h4 style="margin:0; font-size:1rem;">${log.title}</h4>
+                <p style="margin:5px 0 0; font-size:0.8rem; color:var(--text-muted);">
+                    ${log.date} at ${log.time}
+                </p>
+            </div>
+        </div>
+    `;
+
+    // Render Downloads
+    if(downloads.length === 0) document.getElementById('emptyDownHist').style.display = 'block';
+    else {
+        document.getElementById('emptyDownHist').style.display = 'none';
+        downloads.forEach(log => dlGrid.innerHTML += createLogCard(log, 'fa-download', '#6366f1'));
+    }
+
+    // Render Uploads
+    if(uploads.length === 0) document.getElementById('emptyUpHist').style.display = 'block';
+    else {
+        document.getElementById('emptyUpHist').style.display = 'none';
+        uploads.forEach(log => upGrid.innerHTML += createLogCard(log, 'fa-cloud-upload-alt', '#10b981'));
+    }
+}
+
+// Switch between Downloads and Uploads in History View
+function switchHistoryTab(tab) {
+    // 1. Toggle Content
+    document.getElementById('hist-downloads').style.display = tab === 'downloads' ? 'block' : 'none';
+    document.getElementById('hist-uploads').style.display = tab === 'uploads' ? 'block' : 'none';
+
+    // 2. Toggle Active Buttons
+    const buttons = document.querySelectorAll('.history-tabs-container .tab-link');
+    buttons.forEach(btn => {
+        if(btn.textContent.toLowerCase().includes(tab === 'downloads' ? 'downloads' : 'uploads')) {
             btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
     });
-
-    const filtered = category === 'All' ? booksDB : booksDB.filter(b => b.category === category);
-    renderBooks(filtered, 'booksGrid');
 }
 
-window.switchView = function(viewId) {
-    document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
-    
-    const target = document.getElementById(viewId);
-    if(target) target.style.display = 'block';
-    else document.getElementById('view-home').style.display = 'block';
+// ==========================================
+// 5. ACTIONS (Download, Upload, Wishlist)
+// ==========================================
 
+function downloadBookById(id, event) {
+    if(event) event.stopPropagation(); 
+    const book = allBooks.find(b => b.id === id);
+    downloadBook(book);
+}
+
+function downloadBook(book) {
+    if (!currentUser) { openAuthModal('login'); return; }
+    
+    // Allow re-download if in history, else check points
+    const alreadyOwn = currentUser.history.includes(book.id);
+
+    if (alreadyOwn || currentUser.points >= book.cost) {
+        if(!alreadyOwn) {
+            currentUser.points -= book.cost;
+            currentUser.history.push(book.id);
+            // LOG THE ACTIVITY
+            logActivity('download', book.title);
+            updateUserSession();
+        }
+        
+        alert(`Starting download for: ${book.title}`);
+        window.open(book.downloadUrl, '_blank');
+        closePreviewModal();
+    } else {
+        alert(`Not enough points! You have ${currentUser.points}, need ${book.cost}.`);
+    }
+}
+
+function handleUpload(e) {
+    e.preventDefault();
+    if (!currentUser) { openAuthModal('login'); return; }
+    
+    const title = document.getElementById('upTitle').value;
+    const author = document.getElementById('upAuthor').value;
+    const category = document.getElementById('upCategory').value;
+    const url = document.getElementById('upUrl').value;
+    const cost = document.getElementById('upCost').value;
+    const rating = document.getElementById('upRating').value; 
+
+    if(!title || !author || !url) { alert("Please fill required fields."); return; }
+
+    const newBook = {
+        id: Date.now(),
+        title: title,
+        author: author,
+        category: category,
+        cost: parseInt(cost) || 0,
+        rating: parseFloat(rating) || 4.0,
+        trending: false,
+        image: "BookSwapLogo.png", 
+        downloadUrl: url
+    };
+    
+    allBooks.unshift(newBook);
+    saveAllData();
+    
+    // Reward and Log
+    currentUser.points += 50;
+    logActivity('upload', title);
+    updateUserSession();
+    
+    alert("Book Uploaded Successfully! +50 Points");
+    document.getElementById('uploadForm').reset(); // If using ID on form, or e.target.reset()
+    switchView('home');
+}
+
+function toggleWishlist() {
+    if (!currentUser) { openAuthModal('login'); return; }
+    const idx = currentUser.wishlist.indexOf(currentBookId);
+    if (idx === -1) { currentUser.wishlist.push(currentBookId); } 
+    else { currentUser.wishlist.splice(idx, 1); }
+    updateUserSession();
+    openPreview(currentBookId); 
+}
+
+// ==========================================
+// 6. PREVIEW MODAL
+// ==========================================
+function openPreview(id) {
+    currentBookId = id;
+    const book = allBooks.find(b => b.id === id);
+    if (!book) return;
+
+    document.getElementById('pTitle').innerText = book.title;
+    document.getElementById('pAuthor').innerText = book.author;
+    document.getElementById('pCategory').innerText = book.category;
+    document.getElementById('pCost').innerText = book.cost;
+    document.getElementById('pRating').innerText = book.rating;
+    document.getElementById('pImg').src = book.image;
+    document.getElementById('pDesc').innerHTML = `Dive into <strong>${book.title}</strong> by ${book.author}. Category: ${book.category}.`;
+
+    document.getElementById('dlBtn').onclick = () => downloadBook(book);
+    
+    const wishBtn = document.getElementById('wishBtn');
+    wishBtn.onclick = () => toggleWishlist();
+    
+    if (currentUser && currentUser.wishlist.includes(id)) {
+        wishBtn.innerHTML = '<i class="fas fa-heart"></i> Remove Wishlist';
+    } else {
+        wishBtn.innerHTML = '<i class="far fa-heart"></i> Add to Wishlist';
+    }
+
+    document.getElementById('previewModal').classList.add('open');
+}
+
+// ==========================================
+// 7. NAVIGATION & SESSION
+// ==========================================
+function switchView(view) {
+    // Hide all views
+    document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     
-    if(viewId === 'view-home') {
-        document.querySelector('.nav-item[onclick*="view-home"]').classList.add('active');
-        document.getElementById('featuredGrid').style.display = 'grid';
-        document.querySelector('.section-header h3 i.fa-fire').parentElement.parentElement.style.display = 'flex';
-    } 
-    else if (viewId === 'view-wishlist') document.querySelector('.nav-item[onclick*="view-wishlist"]').classList.add('active');
-    else if (viewId === 'view-history') document.querySelector('.nav-item[onclick*="view-history"]').classList.add('active');
-    else if (viewId === 'view-upload') document.querySelector('.nav-item.action-upload').classList.add('active');
-}
-
-function showToast(message, type = 'success') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-    const color = type === 'success' ? 'var(--success)' : 'var(--danger)';
+    // Activate current nav
+    // Matching onclick="switchView('home')" or onclick="handleRestrictedAction('history')"
+    let activeNav;
+    if(view === 'home') activeNav = document.querySelector(`.nav-item[onclick*="switchView('home')"]`);
+    else activeNav = document.querySelector(`.nav-item[onclick*="${view}"]`);
     
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<i class="fas ${icon}" style="color: ${color}; font-size: 1.1rem;"></i><span>${message}</span>`;
+    if(activeNav) activeNav.classList.add('active');
+
+    // Show View
+    document.getElementById('view-' + view).style.display = 'block';
     
-    container.appendChild(toast);
-    setTimeout(() => {
-        toast.style.animation = 'fadeOut 0.3s ease forwards';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    // Load Specific Data
+    if (view === 'wishlist' && currentUser) {
+        const list = allBooks.filter(b => currentUser.wishlist.includes(b.id));
+        renderGrid('wishlistGrid', list, 'emptyWish');
+    }
+    if (view === 'history') {
+        renderActivityLog();
+        switchHistoryTab('downloads'); // Default tab
+    }
 }
 
-function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    localStorage.setItem('bookswap_theme', isDark ? 'dark' : 'light');
-    document.getElementById('themeToggleBtn').innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+function handleRestrictedAction(view) {
+    if (!currentUser) { openAuthModal('login'); } 
+    else { switchView(view); }
 }
 
-function openAuthModal(tab) {
-    document.getElementById('authModal').classList.add('open');
-    switchAuthTab(tab);
+function checkSession() {
+    const session = localStorage.getItem('bs_session_v9');
+    const authBtn = document.getElementById('authBtn');
+    
+    if (session) {
+        currentUser = JSON.parse(session);
+        if(!currentUser.activityLog) currentUser.activityLog = []; // Compat fix
+
+        document.getElementById('uName').innerText = currentUser.username;
+        document.getElementById('uStatus').innerText = "Premium Member";
+        document.getElementById('pointsDisplay').style.display = 'block';
+        document.getElementById('uPoints').innerText = currentUser.points;
+        document.querySelectorAll('.lock-icon').forEach(el => el.style.display = 'none');
+        authBtn.innerText = "Logout";
+        authBtn.onclick = logout;
+    } else {
+        currentUser = null;
+        document.getElementById('uName').innerText = "Guest";
+        document.getElementById('uStatus').innerText = "Not Logged In";
+        document.getElementById('pointsDisplay').style.display = 'none';
+        document.querySelectorAll('.lock-icon').forEach(el => el.style.display = 'inline-block');
+        authBtn.innerText = "Login / Join";
+        authBtn.onclick = () => openAuthModal('login');
+    }
 }
 
-function closeAuthModal() {
-    document.getElementById('authModal').classList.remove('open');
+function updateUserSession() {
+    localStorage.setItem('bs_session_v9', JSON.stringify(currentUser));
+    const idx = allUsers.findIndex(u => u.username === currentUser.username);
+    if (idx !== -1) {
+        allUsers[idx] = currentUser;
+        localStorage.setItem('bs_users_v9', JSON.stringify(allUsers));
+    }
+    checkSession();
 }
+
+function saveAllData() {
+    localStorage.setItem('bs_library_v9', JSON.stringify(allBooks));
+}
+
+function logout() { 
+    localStorage.removeItem('bs_session_v9'); 
+    location.reload(); 
+}
+
+// ==========================================
+// 8. AUTH, THEME, COOKIES
+// ==========================================
+function openAuthModal(tab) { document.getElementById('authModal').classList.add('open'); switchAuthTab(tab); }
+function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
+function closePreviewModal() { document.getElementById('previewModal').classList.remove('open'); }
 
 function switchAuthTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tab === 'login' ? 'tabLogin' : 'tabSignup').classList.add('active');
     document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-    document.getElementById(tab === 'login' ? 'loginForm' : 'signupForm').classList.add('active');
+    if (tab === 'login') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('loginForm').classList.add('active');
+    } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('signupForm').classList.add('active');
+    }
 }
 
-function handleLoginSubmit(e) {
+function processLogin(e) {
     e.preventDefault();
-    const user = { username: document.getElementById('loginUser').value, points: 100, wishlist: [], history: [], uploads: [] };
-    localStorage.setItem('bookswap_user', JSON.stringify(user));
-    location.reload();
+    const u = document.getElementById('logUser').value;
+    const p = document.getElementById('logPass').value;
+    const found = allUsers.find(user => user.username === u && user.password === p);
+    if (found) {
+        localStorage.setItem('bs_session_v9', JSON.stringify(found));
+        closeAuthModal();
+        checkSession();
+        switchView('home');
+    } else { alert("Invalid User/Pass (Try admin / 123)"); }
 }
 
-function handleSignupSubmit(e) {
+function processSignup(e) {
     e.preventDefault();
-    const user = { username: document.getElementById('signupUser').value, points: 50, wishlist: [], history: [], uploads: [] };
-    localStorage.setItem('bookswap_user', JSON.stringify(user));
-    location.reload();
+    const u = document.getElementById('signUser').value;
+    const em = document.getElementById('signEmail').value;
+    const p = document.getElementById('signPass').value;
+    if (allUsers.find(user => user.username === u)) { alert("Username taken"); return; }
+    
+    const newUser = { username: u, email: em, password: p, points: 100, wishlist: [], history: [], activityLog: [] };
+    allUsers.push(newUser);
+    
+    localStorage.setItem('bs_users_v9', JSON.stringify(allUsers));
+    localStorage.setItem('bs_session_v9', JSON.stringify(newUser));
+    
+    closeAuthModal();
+    checkSession();
+    switchView('home');
 }
 
-function handleLogout() {
-    localStorage.removeItem('bookswap_user');
-    location.reload();
+function checkCookies() {
+    if (!localStorage.getItem('bs_cookies_accepted')) document.getElementById('cookieBanner').style.display = 'block';
 }
-
 function acceptCookies() {
-    localStorage.setItem('cookies_accepted', 'true');
-    document.getElementById('cookieBanner').classList.remove('show');
+    localStorage.setItem('bs_cookies_accepted', 'true');
+    document.getElementById('cookieBanner').style.display = 'none';
+}
+
+function loadTheme() {
+    if (localStorage.getItem('bs_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        const txt = document.getElementById('themeText'); if(txt) txt.innerText = "Light Mode";
+        const icon = document.getElementById('themeIcon'); if(icon) icon.className = "fas fa-sun";
+    }
+}
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('bs_theme', isDark ? 'dark' : 'light');
+    document.getElementById('themeText').innerText = isDark ? "Light Mode" : "Dark Mode";
+    document.getElementById('themeIcon').className = isDark ? "fas fa-sun" : "fas fa-moon";
 }
