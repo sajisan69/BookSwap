@@ -243,9 +243,6 @@ const DEFAULT_BOOKS = [
     }
 ];
 
-// ==========================================
-// 2. STATE & INIT
-// ==========================================
 let allBooks = [];
 let allUsers = [];
 let currentUser = null;
@@ -260,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadData() {
-    // Load Books
     const saved = localStorage.getItem('bs_library_v9'); 
     if (saved) {
         allBooks = JSON.parse(saved);
@@ -268,13 +264,10 @@ function loadData() {
         allBooks = DEFAULT_BOOKS;
         localStorage.setItem('bs_library_v9', JSON.stringify(allBooks));
     }
-
-    // Load Users
     const uSaved = localStorage.getItem('bs_users_v9');
     if (uSaved) {
         allUsers = JSON.parse(uSaved);
     } else {
-        // Default Admin User
         allUsers = [{ username: "admin", password: "123", email: "admin@test.com", points: 500, wishlist: [], history: [], activityLog: [] }];
         localStorage.setItem('bs_users_v9', JSON.stringify(allUsers));
     }
@@ -282,9 +275,6 @@ function loadData() {
     renderHome(allBooks);
 }
 
-// ==========================================
-// 3. RENDERING HOME
-// ==========================================
 function renderHome(booksToRender) {
     const searchVal = document.getElementById('searchInput').value.trim();
     const isSearching = searchVal.length > 0;
@@ -297,7 +287,6 @@ function renderHome(booksToRender) {
 
 function handleSearch() {
     const term = document.getElementById('searchInput').value.toLowerCase().trim();
-    
     let filtered = allBooks.filter(b => 
         b.title.toLowerCase().includes(term) || 
         b.author.toLowerCase().includes(term) ||
@@ -371,44 +360,34 @@ function createBookCard(book) {
     return div;
 }
 
-// ==========================================
-// 4. ACTIVITY LOG (DOWNLOAD & UPLOAD)
-// ==========================================
-
-// Helper to add activity
 function logActivity(type, title) {
     if (!currentUser) return;
     
     const logItem = {
-        type: type, // 'download' or 'upload'
+        type: type,
         title: title,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     if (!currentUser.activityLog) currentUser.activityLog = [];
-    currentUser.activityLog.unshift(logItem); // Add new log to top
+    currentUser.activityLog.unshift(logItem); 
     updateUserSession();
 }
 
-// Render Activity Log in History Tab
 function renderActivityLog() {
     if (!currentUser) return;
-
     const dlGrid = document.getElementById('downloadHistoryGrid');
     const upGrid = document.getElementById('uploadHistoryGrid');
-    
     if(!dlGrid || !upGrid) return;
-    
+
     dlGrid.innerHTML = '';
     upGrid.innerHTML = '';
-
     const logs = currentUser.activityLog || [];
-    
+
     const downloads = logs.filter(l => l.type === 'download');
     const uploads = logs.filter(l => l.type === 'upload');
 
-    // Helper to create log card
     const createLogCard = (log, icon, color) => `
         <div class="book-card" style="display:flex; align-items:center; padding:15px; height:auto; min-height:80px;">
             <div style="font-size:1.5rem; color:${color}; margin-right:15px; margin-left:10px;">
@@ -423,14 +402,12 @@ function renderActivityLog() {
         </div>
     `;
 
-    // Render Downloads
     if(downloads.length === 0) document.getElementById('emptyDownHist').style.display = 'block';
     else {
         document.getElementById('emptyDownHist').style.display = 'none';
         downloads.forEach(log => dlGrid.innerHTML += createLogCard(log, 'fa-download', '#6366f1'));
     }
 
-    // Render Uploads
     if(uploads.length === 0) document.getElementById('emptyUpHist').style.display = 'block';
     else {
         document.getElementById('emptyUpHist').style.display = 'none';
@@ -438,13 +415,10 @@ function renderActivityLog() {
     }
 }
 
-// Switch between Downloads and Uploads in History View
 function switchHistoryTab(tab) {
-    // 1. Toggle Content
     document.getElementById('hist-downloads').style.display = tab === 'downloads' ? 'block' : 'none';
     document.getElementById('hist-uploads').style.display = tab === 'uploads' ? 'block' : 'none';
 
-    // 2. Toggle Active Buttons
     const buttons = document.querySelectorAll('.history-tabs-container .tab-link');
     buttons.forEach(btn => {
         if(btn.textContent.toLowerCase().includes(tab === 'downloads' ? 'downloads' : 'uploads')) {
@@ -455,10 +429,6 @@ function switchHistoryTab(tab) {
     });
 }
 
-// ==========================================
-// 5. ACTIONS (Download, Upload, Wishlist)
-// ==========================================
-
 function downloadBookById(id, event) {
     if(event) event.stopPropagation(); 
     const book = allBooks.find(b => b.id === id);
@@ -468,14 +438,13 @@ function downloadBookById(id, event) {
 function downloadBook(book) {
     if (!currentUser) { openAuthModal('login'); return; }
     
-    // Allow re-download if in history, else check points
     const alreadyOwn = currentUser.history.includes(book.id);
 
     if (alreadyOwn || currentUser.points >= book.cost) {
         if(!alreadyOwn) {
             currentUser.points -= book.cost;
             currentUser.history.push(book.id);
-            // LOG THE ACTIVITY
+            
             logActivity('download', book.title);
             updateUserSession();
         }
@@ -516,13 +485,12 @@ function handleUpload(e) {
     allBooks.unshift(newBook);
     saveAllData();
     
-    // Reward and Log
-    currentUser.points += 50;
+    currentUser.points += 100;
     logActivity('upload', title);
     updateUserSession();
     
-    alert("Book Uploaded Successfully! +50 Points");
-    document.getElementById('uploadForm').reset(); // If using ID on form, or e.target.reset()
+    alert("Book Uploaded Successfully! +100 Points");
+    document.getElementById('uploadForm').reset(); 
     switchView('home');
 }
 
@@ -535,9 +503,6 @@ function toggleWishlist() {
     openPreview(currentBookId); 
 }
 
-// ==========================================
-// 6. PREVIEW MODAL
-// ==========================================
 function openPreview(id) {
     currentBookId = id;
     const book = allBooks.find(b => b.id === id);
@@ -565,33 +530,25 @@ function openPreview(id) {
     document.getElementById('previewModal').classList.add('open');
 }
 
-// ==========================================
-// 7. NAVIGATION & SESSION
-// ==========================================
 function switchView(view) {
-    // Hide all views
     document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    
-    // Activate current nav
-    // Matching onclick="switchView('home')" or onclick="handleRestrictedAction('history')"
+
     let activeNav;
     if(view === 'home') activeNav = document.querySelector(`.nav-item[onclick*="switchView('home')"]`);
     else activeNav = document.querySelector(`.nav-item[onclick*="${view}"]`);
     
     if(activeNav) activeNav.classList.add('active');
 
-    // Show View
     document.getElementById('view-' + view).style.display = 'block';
     
-    // Load Specific Data
     if (view === 'wishlist' && currentUser) {
         const list = allBooks.filter(b => currentUser.wishlist.includes(b.id));
         renderGrid('wishlistGrid', list, 'emptyWish');
     }
     if (view === 'history') {
         renderActivityLog();
-        switchHistoryTab('downloads'); // Default tab
+        switchHistoryTab('downloads'); 
     }
 }
 
@@ -645,9 +602,6 @@ function logout() {
     location.reload(); 
 }
 
-// ==========================================
-// 8. AUTH, THEME, COOKIES
-// ==========================================
 function openAuthModal(tab) { document.getElementById('authModal').classList.add('open'); switchAuthTab(tab); }
 function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
 function closePreviewModal() { document.getElementById('previewModal').classList.remove('open'); }
