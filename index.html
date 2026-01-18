@@ -3,234 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookSwap | Premium Student Library</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>BookSwap Ultimate V3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <aside class="sidebar">
-        <div class="brand">
-            <div class="brand-icon"><i class="fas fa-book-reader"></i></div>
-            <span>BookSwap</span>
-        </div>
+    <div class="app-container">
         
-        <div class="user-profile-summary" id="sidebarProfile" style="display:none;">
-            <div class="avatar-circle"><i class="fas fa-user"></i></div>
-            <div class="user-details">
-                <h4 id="userNameDisplay">User</h4>
-                <div class="points-pill"><i class="fas fa-gem"></i> <span id="userPoints">0</span> pts</div>
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fas fa-book-open"></i> BookSwap
             </div>
-        </div>
 
-        <nav class="side-nav">
-            <p class="nav-label">Main Menu</p>
-            <a href="#" class="nav-item active" onclick="switchView('view-home')">
-                <i class="fas fa-th-large"></i> Dashboard
-            </a>
-            <a href="#" class="nav-item" onclick="handleRestrictedAction('view-wishlist')">
-                <i class="fas fa-heart"></i> My Wishlist <i class="fas fa-lock lock-icon"></i>
-            </a>
-            <a href="#" class="nav-item" onclick="handleRestrictedAction('view-history')">
-                <i class="fas fa-clock"></i> History <i class="fas fa-lock lock-icon"></i>
-            </a>
-            
-            <p class="nav-label">Contribute</p>
-            <a href="#" class="nav-item action-upload" onclick="handleRestrictedAction('view-upload')">
-                <i class="fas fa-cloud-upload-alt"></i> Upload PDF <i class="fas fa-lock lock-icon"></i>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer-action">
-            <button id="logoutBtn" class="btn-sidebar-action logout" style="display:none;">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-            <button id="loginBtn" class="btn-sidebar-action login-highlight" onclick="openAuthModal('login')">
-                <i class="fas fa-sign-in-alt"></i> Login / Join
-            </button>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        
-        <header class="top-header">
-            <div class="welcome-text">
-                <h1>Library Dashboard</h1>
-                <p>Access premium academic resources</p>
-            </div>
-            <div class="header-right">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search title, author, or tag...">
+            <div class="user-summary" id="userSummarySection">
+                <div class="avatar-circle">
+                    <i class="fas fa-user"></i>
                 </div>
-                <button id="themeToggleBtn" class="icon-btn" title="Toggle Dark Mode">
-                    <i class="fas fa-moon"></i>
+                <div class="user-text">
+                    <h4 id="uName">Guest</h4>
+                    <span id="uStatus">Not Logged In</span>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-label">Browse</li>
+                
+                <li class="nav-item active" onclick="switchView('home')">
+                    <i class="fas fa-home"></i> Home
+                </li>
+
+                <li class="nav-label">My Library</li>
+                <li class="nav-item" onclick="handleRestrictedAction('wishlist')">
+                    <i class="fas fa-heart"></i> Wishlist
+                    <i class="fas fa-lock lock-icon"></i>
+                </li>
+                <li class="nav-item" onclick="handleRestrictedAction('history')">
+                    <i class="fas fa-history"></i> History
+                    <i class="fas fa-lock lock-icon"></i>
+                </li>
+                
+                <li class="nav-label">Actions</li>
+                <li class="nav-item" onclick="handleRestrictedAction('upload')">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload Book
+                    <i class="fas fa-lock lock-icon"></i>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="btn-sidebar" onclick="toggleTheme()">
+                    <i id="themeIcon" class="fas fa-moon"></i>
+                    <span id="themeText">Dark Mode</span>
+                </div>
+                <button id="authBtn" class="btn-primary" onclick="openAuthModal('login')">
+                    Login / Join
                 </button>
             </div>
-        </header>
-
-        <div class="content-wrapper">
-            
-            <div id="view-home" class="view-section active">
-                <div class="dashboard-banner">
-                    <div class="banner-content">
-                        <h2>Share Knowledge, Earn Points</h2>
-                        <p>Upload your notes and get access to our premium collection.</p>
-                        <button class="btn-white" onclick="handleRestrictedAction('view-upload')">Start Uploading</button>
-                    </div>
-                    <i class="fas fa-book-open banner-icon-bg"></i>
+        </aside>
+        <main class="main-content">
+            <header class="top-header">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search title, author, category..." onkeyup="handleSearch()">
                 </div>
-
-                <div class="section-header">
-                    <h3><i class="fas fa-fire" style="color:#f59e0b"></i> Trending Now</h3>
-                </div>
-                <div class="featured-grid" id="featuredGrid"></div>
-
-                <div class="section-header mt-large">
-                    <h3>All Collections</h3>
-                    <div class="filter-tabs">
-                        <button class="filter-btn active" onclick="filterBooks('All')">All</button>
-                        <button class="filter-btn" onclick="filterBooks('Technology')">Tech</button>
-                        <button class="filter-btn" onclick="filterBooks('Fiction')">Fiction</button>
-                        <button class="filter-btn" onclick="filterBooks('Science')">Science</button>
+                <div class="header-right">
+                    <div class="points-badge" id="pointsDisplay" style="display:none;">
+                        <i class="fas fa-coins"></i> <span id="uPoints">0</span> pts
                     </div>
                 </div>
-                <div class="books-grid" id="booksGrid"></div>
-            </div>
+            </header>
 
-            <div id="view-wishlist" class="view-section" style="display: none;">
-                <div class="section-top-bar">
-                    <button class="btn-back" onclick="switchView('view-home')">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </button>
-                    <h2>My Wishlist</h2>
-                </div>
-                <div class="books-grid" id="wishlistGrid"></div>
-            </div>
-
-            <div id="view-history" class="view-section" style="display: none;">
-                 <div class="section-top-bar">
-                    <button class="btn-back" onclick="switchView('view-home')">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </button>
-                    <h2>Download History</h2>
-                </div>
-                <div class="history-list-container" id="historyList"></div>
-            </div>
-
-            <div id="view-upload" class="view-section" style="display: none;">
-                <div class="section-top-bar">
-                    <button class="btn-back" onclick="switchView('view-home')">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </button>
-                    <h2>Upload & Earn</h2>
-                </div>
-
-                <div class="upload-wrapper">
-                    <div class="upload-box">
-                        <i class="fas fa-cloud-upload-alt upload-icon-lg"></i>
-                        <h3>Drag & Drop PDF</h3>
-                        <p>Earn <strong>+100 points</strong> per valid upload</p>
-                        <input type="file" id="fileInput" hidden>
-                        <p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--primary); margin-top: 10px; height: 20px; font-weight: 600;"></p>
-                        <button class="btn-primary" onclick="document.getElementById('fileInput').click()">Select File</button>
+            <div class="content-body">
+                
+                <section id="view-home" class="view-section">
+                    <div id="trendingSection">
+                        <div class="section-header">
+                            <h2>Trending Now <i class="fas fa-fire text-warning"></i></h2>
+                            <p class="section-subtitle">Most downloaded this week</p>
+                        </div>
+                        <div class="books-grid" id="trendingGrid"></div>
+                        <div class="divider"></div>
                     </div>
-                    <button id="uploadConfirmBtn" class="btn-confirm-upload" disabled>Confirm Upload</button>
-                </div>
 
-                <div class="section-header mt-large">
-                    <h3>My Contributions</h3>
-                </div>
-                <div id="myUploadsList" class="history-list-container"></div>
-            </div>
-
-        </div> 
-
-        <footer class="main-footer">
-            <div class="footer-container">
-                <div class="footer-brand-col">
-                    <div class="footer-logo">
-                        <i class="fas fa-book-reader"></i> BookSwap
+                    <div class="section-header">
+                        <h2>Explore Collection</h2>
                     </div>
-                    <p>Connecting students through shared knowledge.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="#">Trending</a>
-                    <a href="#">Categories</a>
-                    <a href="#">Uploads</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Support</h4>
-                    <a href="#">Help Center</a>
-                    <a href="#">Privacy</a>
-                    <a href="#">Terms</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Social</h4>
-                    <a href="#">Twitter</a>
-                    <a href="#">Instagram</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2024 BookSwap Inc. All rights reserved.
-            </div>
-        </footer>
-    </main>
+                    
+                    <div class="category-tabs">
+                        <button class="cat-btn active" onclick="filterCategory('All', this)">All Books</button>
+                        <button class="cat-btn" onclick="filterCategory('Technology', this)">Technology</button>
+                        <button class="cat-btn" onclick="filterCategory('Fiction', this)">Fiction</button>
+                        <button class="cat-btn" onclick="filterCategory('Science', this)">Science</button>
+                        <button class="cat-btn" onclick="filterCategory('Business', this)">Business</button>
+                    </div>
 
-    <div id="authModal" class="modal-overlay">
+                    <div class="books-grid" id="booksGrid">
+                        </div>
+                    <p id="noResults" class="empty-state" style="display:none;">No books found matching your search.</p>
+                </section>
+
+                <section id="view-wishlist" class="view-section" style="display: none;">
+                    <div class="section-header"><h2>My Wishlist</h2></div>
+                    <div class="books-grid" id="wishlistGrid"></div>
+                    <div id="emptyWish" class="empty-state" style="display:none;">
+                        <i class="far fa-heart"></i>
+                        <p>Your wishlist is empty.</p>
+                    </div>
+                </section>
+
+                <section id="view-history" class="view-section" style="display: none;">
+                    
+                    <div class="history-tabs-container" style="margin-bottom: 20px; border-bottom: 1px solid var(--border);">
+                        <button class="tab-link active" onclick="switchHistoryTab('downloads')">Downloads</button>
+                        <button class="tab-link" onclick="switchHistoryTab('uploads')">My Uploads</button>
+                    </div>
+
+                    <div id="hist-downloads" class="history-content active">
+                        <div class="section-header"><h4>Books You've Downloaded</h4></div>
+                        <div class="books-grid" id="downloadHistoryGrid"></div>
+                        <div id="emptyDownHist" class="empty-state" style="display:none;">
+                            <i class="fas fa-download"></i>
+                            <p>You haven't downloaded any books yet.</p>
+                        </div>
+                    </div>
+
+                    <div id="hist-uploads" class="history-content" style="display: none;">
+                        <div class="section-header"><h4>Books You've Contributed</h4></div>
+                        <div class="books-grid" id="uploadHistoryGrid"></div>
+                        <div id="emptyUpHist" class="empty-state" style="display:none;">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>You haven't uploaded any books yet.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-upload" class="view-section" style="display: none;">
+                    <div class="upload-container pro-mode">
+                        <div class="upload-header">
+                            <h2>Submit Resource</h2>
+                            <p style="color: var(--text-muted);">Share your knowledge with the community.</p>
+                        </div>
+
+                        <div class="upload-guidelines">
+                            <div class="guideline-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <h6 style="margin:0;">PDF / EPUB</h6>
+                                    <small style="color:var(--text-muted);">Supported Formats</small>
+                                </div>
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fas fa-image"></i>
+                                <div>
+                                    <h6 style="margin:0;">Default Cover</h6>
+                                    <small style="color:var(--text-muted);">Auto-generated if empty</small>
+                                </div>
+                            </div>
+                            <div class="guideline-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h6 style="margin:0;">Verified</h6>
+                                    <small style="color:var(--text-muted);">Quality Control</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form onsubmit="handleUpload(event)" class="upload-form-grid">
+                            
+                            <div class="upload-col">
+                                <div class="form-group">
+                                    <label style="display:block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">BOOK DETAILS</label>
+                                    
+                                    <div class="input-with-icon" style="margin-bottom: 15px;">
+                                        <i class="fas fa-heading"></i>
+                                        <input type="text" id="upTitle" placeholder="Book Title" required>
+                                    </div>
+
+                                    <div class="input-with-icon" style="margin-bottom: 15px;">
+                                        <i class="fas fa-feather-alt"></i>
+                                        <input type="text" id="upAuthor" placeholder="Author Name" required>
+                                    </div>
+
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-layer-group"></i>
+                                        <select id="upCategory">
+                                            <option value="Technology">Technology</option>
+                                            <option value="Fiction">Fiction</option>
+                                            <option value="Science">Science</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="upload-col">
+                                <div class="form-group">
+                                    <label style="display:block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">FILE & SETTINGS</label>
+                                    
+                                    <div class="input-with-icon" style="margin-bottom: 15px;">
+                                        <i class="fas fa-link"></i>
+                                        <input type="url" id="upUrl" placeholder="Download Link (Drive/Dropbox)" required>
+                                    </div>
+                                    
+                                    <div class="input-with-icon" style="margin-bottom: 15px;">
+                                        <i class="fas fa-coins"></i>
+                                        <input type="number" id="upCost" value="0" min="0" placeholder="Cost (Points) - 0 for Free" required>
+                                    </div>
+
+                                    <div class="input-with-icon">
+                                        <i class="fas fa-star"></i>
+                                        <input type="number" id="upRating" placeholder="Rating (1.0 - 5.0)" min="1" max="5" step="0.1" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="upload-notice-box" style="grid-column: 1 / -1; margin-top: 10px;">
+                                <div class="icon-box"><i class="fas fa-info-circle"></i></div>
+                                <div class="text-box">
+                                    <h5 style="margin: 0; font-size: 0.95rem; color: var(--primary-color);">Note</h5>
+                                    <p style="margin: 2px 0 0; color: var(--text-muted); font-size: 0.8rem;">
+                                        This book will only be visible to you in your "My Uploads" history as per your request.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="upload-footer" style="grid-column: 1 / -1; border: none; padding-top: 15px;">
+                                <button type="submit" class="btn-primary btn-large" style="width: 100%; padding: 16px; border-radius: 12px; font-size: 1.1rem;">
+                                    <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Publish to Library
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </section>
+
+                <footer class="main-footer">
+                    <div class="footer-content">
+                        <div class="footer-col">
+                            <h4>BookSwap</h4>
+                            <p>Connecting readers worldwide.</p>
+                            <div class="social-icons">
+                                <i class="fab fa-facebook"></i>
+                                <i class="fab fa-twitter"></i>
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Platform</h4>
+                            <a href="#" onclick="switchView('home')">Library</a>
+                            <a href="#" onclick="handleRestrictedAction('upload')">Upload</a>
+                        </div>
+                        <div class="footer-col">
+                            <h4>Legal</h4>
+                            <a href="#">Privacy</a>
+                            <a href="#">Terms</a>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        &copy; 2025 BookSwap Inc. All rights reserved.
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="cookieBanner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <p><strong>🍪 Cookies!</strong> We use cookies to enable login sessions and save your preferences.</p>
+            </div>
+            <button class="btn-primary" onclick="acceptCookies()">Accept</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="authModal">
         <div class="modal-card">
             <button class="close-modal" onclick="closeAuthModal()">&times;</button>
             <div class="auth-header">
-                <h2>Welcome</h2>
-                <p>Please login to continue</p>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="switchAuthTab('login')">Login</button>
+                    <button class="tab-btn" onclick="switchAuthTab('signup')">Sign Up</button>
+                </div>
             </div>
             
-            <div class="auth-tabs">
-                <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">Login</button>
-                <button class="tab-btn" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+            <div class="auth-body">
+                <form id="loginForm" class="auth-form active" onsubmit="processLogin(event)">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="logUser" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="logPass" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Login to Account</button>
+                </form>
+
+                <form id="signupForm" class="auth-form" onsubmit="processSignup(event)">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="signUser" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="signEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signPass" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Create New Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<div id="previewModal" class="modal-overlay" onclick="if(event.target === this) closePreviewModal()">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closePreviewModal()">&times;</button>
+        
+        <div class="preview-content">
+            <div class="preview-left">
+                <img id="pImg" src="" alt="Book Cover">
             </div>
 
-            <form id="loginForm" class="auth-form active">
-                <div class="input-group">
-                    <label>Username</label>
-                    <input type="text" id="loginUser" placeholder="e.g. demo" required>
+            <div class="preview-right">
+                <span class="badge badge-secondary" id="pCategory">Category</span>
+                <h2 id="pTitle">Book Title</h2>
+                <p class="author-text" id="pAuthor">Author Name</p>
+                
+                <div class="stats-row">
+                    <span class="stat-badge"><i class="fas fa-star text-warning"></i> <span id="pRating">0</span></span>
+                    <span class="stat-badge"><i class="fas fa-coins text-warning"></i> <span id="pCost">0</span> pts</span>
                 </div>
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="••••••" required>
-                </div>
-                <button type="submit" class="btn-primary btn-full">Log In</button>
-            </form>
 
-            <form id="signupForm" class="auth-form">
-                <div class="input-group">
-                    <label>Username</label>
-                    <input type="text" id="signupUser" required>
+                <div class="desc-box">
+                    <h5>Description</h5>
+                    <p id="pDesc">Book details go here...</p>
                 </div>
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" required>
+
+                <div class="modal-actions">
+                    <button class="btn-card btn-card-primary" id="dlBtn">
+                        Download Now
+                    </button>
+                    <button class="btn-card btn-card-outline" id="wishBtn">
+                        <i class="far fa-heart"></i> Add to Wishlist
+                    </button>
                 </div>
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" required>
-                </div>
-                <button type="submit" class="btn-primary btn-full">Create Account</button>
-            </form>
+            </div>
         </div>
     </div>
-
-    <div id="cookieBanner" class="cookie-banner">
-        <div class="cookie-content">
-            <i class="fas fa-cookie-bite"></i>
-            <p>We use cookies to save your progress.</p>
-        </div>
-        <button onclick="acceptCookies()" class="btn-cookie">Accept</button>
-    </div>
-
-    <div id="toast-container"></div>
+</div>
 
     <script src="script.js"></script>
 </body>
